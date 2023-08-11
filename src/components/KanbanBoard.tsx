@@ -40,6 +40,16 @@ function KanbanBoard() {
     setColumns(filteredColumns);
   }
 
+  // Update column
+  function updateColumn(id: Id, title: string) {
+    const newColumns = columns.map((col) => {
+      if (col.id !== id) return col;
+      return { ...col, title: title };
+    });
+
+    setColumns(newColumns);
+  }
+
   function onDragStart(event: DragStartEvent) {
     console.log("DRAG START", event);
     if (event.active.data.current?.type === "Column") {
@@ -78,6 +88,7 @@ function KanbanBoard() {
       },
     })
   );
+
   return (
     <div className="m-auto flex min-h-screen w-full items-center justify-center overflow-x-auto overflow-y-hidden px-[40px]">
       <DndContext
@@ -93,6 +104,7 @@ function KanbanBoard() {
                   key={column.id}
                   column={column}
                   deleteColumn={deleteColumn}
+                  updateColumn={updateColumn}
                 />
               ))}
             </SortableContext>
@@ -114,6 +126,7 @@ function KanbanBoard() {
               <ColumnContainer
                 column={activeColumn}
                 deleteColumn={deleteColumn}
+                updateColumn={updateColumn}
               />
             )}
           </DragOverlay>,
